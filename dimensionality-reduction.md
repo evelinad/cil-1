@@ -73,12 +73,6 @@ Choose L by analyzing singular value spectrum and choosing a knee.
 
 $$\tilde{X}=T_LW_L^T=U_L\Sigma_LW_L^T$$
 
-Minimizes error:
+Minimizes spectral norm of error :
 
 $$ ||X-X_L||_2 $$
-
-Where the euclidean matrix norm is defined as
-
-$$ ||A||\_p=\max_{x\neq0}\frac{||Ax||_p}{||x||_p} $$
-
-When p=2 (spectral norm) it's the largest singular value.

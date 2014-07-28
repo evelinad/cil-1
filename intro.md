@@ -23,7 +23,7 @@ Singular value decomposition
 
 $$ X=U\Sigma V^T $$
 
-U, T orthogonal.
+U, V orthogonal.
 
 ### Relationship with Eigenvalue decomposition:
 
@@ -39,23 +39,60 @@ Singular values of X are square roots of eigenvalues of $X^T*X$ and $X*X^T$.
 * Compute eigenvectors of $X^T*X$, the colmns of V.
 * Compute $U=AVD^-1$.
 
-RMSE
+Norms
 ---
 
-A mean that gives more weight to bigger values: Root mean square (RMS) of a set of values:
+### Vector norms
 
-$$\sqrt(\frac{1}{n}\sum_{i=1}^nx_i^2)$$
+p-norm for vectors:
 
-When talking about a matrix:
+$$||\mathbf{x}||\_p := \bigg( \sum\_{i=1}^n |x\_i|^p \bigg)^{1/p}$$
 
-$$\sqrt(\frac{1}{n}\sum_{i=1}^n\sum_{j=1}A_ij^2)$$
+For p=1 taxicab norm, p=2 euclidean norm, p=infinity infinity/maximum norm.
 
-Given a matrix $X$ and an approximation $\tilde{X}$, the Root-Mean-Square-Error is:
+### Matrix norms
 
-$$||X-\tilde{X}||_F^2=(X-\tilde{X})$$
+#### p-norm for vectors induced to matrices
 
-Where the frobenius norm is defined as:
+$$||A||\_p = \sup \limits \_{x \ne 0} \frac{|| A x|| _p}{|| x|| _p}$$
 
-$$||A||_F:=\sqrt{\sum_i=1^m\sum_{j=1}^nA_{ij}^2$$
+For p=2 it's the spectral norm or the largest singular value:
+
+$$|| A ||\_2=\sqrt{\lambda\_{\text{max}}(A^{^*} A)}=\sigma\_{\text{max}}(A) $$
+
+#### Entrywise norm
+
+Warning: it has the same notation as the induced p-norm!
+
+$$\Vert A \Vert\_{p} = \Vert \mathrm{vec}(A) \Vert\_{p} = \left( \sum\_{i=1}^m \sum\_{j=1}^n |A\_{ij}|^p \right)^{1/p}$$ 
+
+For p=2 you get the Frobenius norm:
+
+$$ ||A||\_F=\sqrt{\sum\_{i=1}^m\sum\_{j=1}^n |A\_{ij}|^2}=\sqrt{\operatorname{trace}(A^{{}^*}A)}=\sqrt{\sum\_{i=1}^{\min\{m,\,n\}} \sigma\_{i}^2} $$
 
 
+Root Mean Square Error
+---
+
+Given a matrix $X$ and an approximation $\tilde{X}$, the error is
+
+$$E=\tilde{X}-X$$
+
+Sum of Squared Errors (SSE):
+
+$$\sum\_{i=1}^m\sum\_{j=1}^nE\_{ij}^2=||E||\_F^2$$
+
+Mean Square Error (MSE):
+
+$$\frac{1}{mn}\sum\_{i=1}^m\sum\_{j=1}^nE\_{ij}^2=\frac{1}{mn}||E||\_F^2$$
+
+Root Mean Square Error (RMSE):
+
+$$\sqrt{\frac{1}{mn}\sum\_{i=1}^m\sum\_{j=1}^nE\_{ij}^2}=\sqrt{\frac{1}{mn}}||E||\_F$$
+
+Probability
+---
+
+Bayes' Rule:
+
+$$ P(A|B)=\frac{P(B|A)P(A)}{P(B)} $$
