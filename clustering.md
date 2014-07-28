@@ -24,7 +24,7 @@ K-Means clustering
 Find partition of data $\mathbf{S}$. Minimize within-cluster sum of squares (WCSS):
 
 
-$$\underset{\mathbf{S}} {\operatorname{arg\,min}} \sum\_{i=1}^{k} \sum\_{\mathbf x\_j \in S\_i} \left\| \mathbf x\_j - \boldsymbol\mu\_i \right\|^2$$ 
+$$\underset{\mathbf{S}} {\operatorname{arg\,min}} \sum\_{i=1}^{k} \sum\_{\mathbf x\_j \in S\_i} || \mathbf x\_j - \boldsymbol\mu\_i ||^2$$ 
 
 NP-hard -> approximate solution. K-means partitions data space into Voronoi diagram.
 
@@ -137,6 +137,6 @@ Don't understand - lecture05, slide 28.
 
 * EM soft assignments
 * Stronger in that they estimate ovariances and not only means
-* EM where covariance matrices are assumed to be fixed to $\epsylon I$, when $\epsylon\rightarrow0$, the algorithm tends to hard assignment to clusters reduces to k-means
+* EM where covariance matrices are assumed to be fixed to $\epsilon I$, when $\epsilon\rightarrow0$, the algorithm tends to hard assignment to clusters, i.e. it reduces to k-means.
 * Slower
 * k-means can be used o initialize EM

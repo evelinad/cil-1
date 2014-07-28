@@ -37,7 +37,7 @@ Singular values of X are square roots of eigenvalues of $X^T*X$ and $X*X^T$.
 
 * Compute eigenvalues of $X^T*X$, square to get singular values.
 * Compute eigenvectors of $X^T*X$, the colmns of V.
-* Compute $U=AVD^-1$.
+* Compute $U=AVD^{-1}$.
 
 Norms
 ---

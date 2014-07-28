@@ -1,17 +1,12 @@
 Dimensionality Reduction
 ===
 
-Reduce random variables under consideration to avoid effects of high dimensionality.
+High dimensionality has a multitude of unwanted phenomena. This is called the curse of dimensionality. To avoid effects of high dimensionality one must reduce the random variables under consideration. Dimensionality reduction is what can be done to extract the intrinsic dimensionality of the data. It is also called feature extraction in that it creates new features from functions of the original features. A subset is feature selection which returns a subset of the available features. 
 
-Feature extraction creates new features from functions of the original features.
-Feature selection returns a subset of the features. 
-
-Curse of dimensionality
+Volumetric effect
 ---
 
-High dimensionality has a multitude of phenomena. One is that distance functions lose their usefulness.
-
-Assume data in d dimensions with a gaussian distribution:
+One effect of dimensionality is that distance functions lose their usefulness. Assume data in d dimensions with a gaussian distribution:
 
 $$x_d\sim\mathcal{N}(0,1)$$
 
@@ -29,10 +24,11 @@ $$\Gamma(\frac{D}{2},\frac{4}{D})\mathop{\rightarrow}_{D\rightarrow\infty}\mathc
 
 i.e. in high dimension the normalized distance between points tends to have constant value.
 
-In other words, if the data doesn't behave that way, we can assume that:
+This is a characterization of high-dimensional data. In other words, if the data doesn't behave that way, we can assume that:
 
 * the intrinsic dimensionality of the data isn't that high, or
 * it isn't normally distributed at all
+
 
 Principal Component Analysis
 ---
@@ -45,7 +41,7 @@ Minimize covariance between principal components.
 
 ### With eigenvalue decomposition
 
-Given the eigenvalue decomposition of X^TX:
+Given the eigenvalue decomposition of $X^TX$:
 
 $$X^TX=W\Lambda W^T$$
 
@@ -53,7 +49,7 @@ The score matrix is:
 
 $$T=XW$$
 
-Note that X^TX is proportional to the covariance matrix
+Note that $X^TX$ is proportional to the covariance matrix
 
 $$ \frac{1}{n}X^TX $$
 
@@ -75,4 +71,4 @@ $$\tilde{X}=T_LW_L^T=U_L\Sigma_LW_L^T$$
 
 Minimizes spectral norm of error :
 
-$$ ||X-X_L||_2 $$
+$$ ||X-\tilde{X}||_2 $$
