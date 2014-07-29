@@ -1,8 +1,10 @@
 Intro
 ===
 
-Sample Covariance Matrix
+Matrix Operations
 ---
+
+Sample Covariance Matrix:
 
 $$ \frac{1}{n}X^TX $$
 
@@ -66,10 +68,9 @@ Warning: it has the same notation as the induced p-norm!
 
 $$\Vert A \Vert\_{p} = \Vert \mathrm{vec}(A) \Vert\_{p} = \left( \sum\_{i=1}^m \sum\_{j=1}^n |A\_{ij}|^p \right)^{1/p}$$ 
 
-For p=2 you get the Frobenius norm:
+For p=0 it's the Hamming distance. For p=2 you get the Frobenius norm:
 
 $$ ||A||\_F=\sqrt{\sum\_{i=1}^m\sum\_{j=1}^n |A\_{ij}|^2}=\sqrt{\operatorname{trace}(A^{{}^*}A)}=\sqrt{\sum\_{i=1}^{\min\{m,\,n\}} \sigma\_{i}^2} $$
-
 
 Root Mean Square Error
 ---
@@ -96,3 +97,4 @@ Probability
 Bayes' Rule:
 
 $$ P(A|B)=\frac{P(B|A)P(A)}{P(B)} $$
+

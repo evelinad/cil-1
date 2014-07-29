@@ -54,7 +54,7 @@ Choose cluster number (k) that minimizes instability.
 
 ### As matrix factorization
 
-Given X find approximation UZ to minimize error
+Given X find approximation UZ to minimize Sum of Squared Errors:
 
 $$ ||X-UZ||_F^2 $$
 
@@ -125,7 +125,7 @@ Check for log-likelihood or parameter convergence.
 
 Soft clustering: instead of assigning a cluster, assign a probability: 
 
-$$Z\_{kn}\in[0,1], \sum_{k=1}^KZ_{kn}=1$$
+$$Z\_{kn}\in[0,1], \sum\_{k=1}^KZ\_{kn}=1$$
 
 GMM gives an upper bound for the SSE:
 
@@ -140,3 +140,53 @@ Don't understand - lecture05, slide 28.
 * EM where covariance matrices are assumed to be fixed to $\epsilon I$, when $\epsilon\rightarrow0$, the algorithm tends to hard assignment to clusters, i.e. it reduces to k-means.
 * Slower
 * k-means can be used o initialize EM
+
+### Order selection
+
+What should be $K$? Tradeoff: goodness of fit vs model complexity and risk of overfitting. The likelihood increases with k apart fom local minima.
+
+Note: The following criteria are meant to be minimized.
+
+The **Akaike Information Criterion (AIC)**, rewards goodness of fit but penalizes the number of estimated parameter to avoid overfitting:
+
+$$AIC = 2K-1\ln L$$
+
+Where $L$ is the maximum likelihood associated with given $K$. Valid only asymptotically, for few data use corrected AIC (AICc).
+
+The **Bayesian Information Criterion (BIC)** penalizes the complexity more. For large $N$ it's:
+
+$$BIC = \frac{1}{2}k\ln N-\ln L$$
+
+Warning: in wikipedia BIC is 2x as defined here.
+
+Multi-Assignment Clustering
+---
+
+Role-Based Access Control (RBAC): given User-permissions $X\in\mathbb{B}^{D\times N}$ (ideally) find roles $U\in\mathbb{R}^{D\times K}$ and assignments $Z\in\mathbb{B}^{K\times N}$ so that
+
+$$X=U\otimes Z :\Leftrightarrow X\_{dn}=\bigvee\_k[U{dk}\wedge Z\_{kn}]$$
+
+Min-noise approximation: find
+
+$$\arg\min\_{U,Z}||X-U\otimes Z||\_F^2$$
+
+The problem is NP-hard, equivalent to set basis problem: given finite set $U$, family $\mathcal{S}\subseteq\mathcal{P}(U)$ and $k$, does there exist a set basis of size at most $k$ for $\mathcal{S}$?
+
+### Approaches
+
+* SVD
+	* Compute SVD, pick $U_k, V_k$ and round up/down according to threshold to get bools
+	* Not suitable for role mining: poor Boolean decomposition
+* K-Means
+	* Use Hamming distance instead of Frobenius norm
+	* Boolean centroids, use median during update step
+	* Disjoint clustering -> no multi-assignments
+* Role Miner
+	* Find sets of common permissions
+	* Sensitive to noise - overfitting
+* Discrete Basis Problem Solver
+	* Put things in roles that are often 1 together
+* Model-based clustering
+	* The best
+
+### Model-based Clustering
