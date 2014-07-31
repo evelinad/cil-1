@@ -8,9 +8,9 @@ Mean:
 
 $$\bar{x}=\frac{1}{n}\sum_{i=1}^nX_i,\; \bar{X}=[\bar{x},\cdots,\bar{x}]$$
 
-Sample Covariance Matrix:
+Sample Covariance Matrix (element $ij$ is covariance between *columns* $i$ and $j$):
 
-$$ \frac{1}{n}(X-\bar{X})^T(X-\bar{X}) $$
+$$ \frac{1}{n}(X-\bar{X})(X-\bar{X})^T $$
 
 Eigenvalue decomposition
 ---
