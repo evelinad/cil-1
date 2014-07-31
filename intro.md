@@ -4,16 +4,20 @@ Intro
 Matrix Operations
 ---
 
+Mean:
+
+$$\bar{x}=\frac{1}{n}\sum_{i=1}^nX_i,\; \bar{X}=[\bar{x},\cdots,\bar{x}]$$
+
 Sample Covariance Matrix:
 
-$$ \frac{1}{n}X^TX $$
+$$ \frac{1}{n}(X-\bar{X})^T(X-\bar{X}) $$
 
 Eigenvalue decomposition
 ---
 
 $$ X=Q\Lambda Q^T $$
 
-Q orthogonal, Lambda diagonal.
+$Q$ orthogonal, $\Lambda$ diagonal.
 
 Defined based on eigenvalues, eigenvectors:
 
@@ -25,7 +29,7 @@ Singular value decomposition
 
 $$ X=U\Sigma V^T $$
 
-U, V orthogonal.
+$U, V$ orthogonal.
 
 ### Relationship with Eigenvalue decomposition:
 
@@ -93,6 +97,14 @@ $$\sqrt{\frac{1}{mn}\sum\_{i=1}^m\sum\_{j=1}^nE\_{ij}^2}=\sqrt{\frac{1}{mn}}||E|
 
 Probability
 ---
+
+Expected value:
+
+$$\operatorname{E}[X] = \sum_{i=1}^nx_ip_i$$
+
+Conditional expected value:
+
+$$\operatorname{E}[X|Y] = \sum_{i=1}^nx_ip(x_i|Y)$$
 
 Bayes' Rule:
 

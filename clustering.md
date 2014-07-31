@@ -21,10 +21,10 @@ Main types of clustering:
 K-Means clustering
 ---
 
-Find partition of data $\mathbf{S}$. Minimize within-cluster sum of squares (WCSS):
+Find partition of data $S$. Minimize within-cluster sum of squares (WCSS):
 
 
-$$\underset{\mathbf{S}} {\operatorname{arg\,min}} \sum\_{i=1}^{k} \sum\_{\mathbf x\_j \in S\_i} || \mathbf x\_j - \boldsymbol\mu\_i ||^2$$ 
+$$\underset{S} {\operatorname{arg\,min}} \sum\_{i=1}^{k} \sum\_{ x\_j \in S\_i} ||  x\_j - \mu\_i ||^2$$ 
 
 NP-hard -> approximate solution. K-means partitions data space into Voronoi diagram.
 
@@ -60,6 +60,31 @@ $$ ||X-UZ||_F^2 $$
 
 where U is the centroids matrix and Z is the assignment matrix, Z has only one 1 entry per column, the rest are zeros.
 
+Expectation Maximization (EM)
+---
+
+Given observed data $X$ and unknown latent variables $Z$, and likelihood function
+
+$$L(\theta; X, Z) = p(X, Z|\theta) $$ 
+
+find parameters $\theta$ to maximize the marginal likelihood:
+
+$$ L(\theta; X) = p(X|\theta) = \sum_Z p(X,Z|\theta) $$
+
+Compute with iterative 2-step algorithm.
+
+1. Expectation step: with fixed parameter estimate $\theta$ calculate the expected latent values:
+
+$$Z\leftarrow E[Z|X,\theta]$$
+
+2. Maximization step: given the the expected latent values, compute a new estimate of the parameters that maximizes the log likelihood:
+
+$$\theta \leftarrow \underset{\theta}{\operatorname{arg\,max}} \log L(\theta;X,Z)$$
+
+Initialization: as in M step.
+
+Check for log-likelihood or parameter convergence.
+
 Mixture Models
 ---
 
@@ -69,11 +94,11 @@ $$p(x)=\sum_{k=1}^K\pi_kp(x|\theta_k) $$
 
 Goal: find $\pi,\theta$ to maximize likelihood of data:
 
-$$ p(X|\pi,\theta)=\prod\_{n=1}^Np(x\_n) $$
+$$ L(\theta;X)=p(X|\pi,\theta)=\prod\_{n=1}^Np(x\_n) $$
 
-### Latent variables
+### Expectation Maximization
 
-A latent variable is a random variable z of dimension k with a categorical distribution: exactly one element at a time is 1 i.e.
+In mixture models, the latent variables are random variables $z$ of dimension $k$ with a categorical distribution: exactly one element at a time is 1, i.e. 
 
 $$p(z=(0,\ldots,\underbrace{1}\_k,\ldots,0))=p(z\_k=1)=\pi_k$$
 
@@ -81,47 +106,43 @@ and 0 otherwise. A data point depends only on one mixture component at a time, d
 
 $$ p(x|z\_{k'}=1)=\prod\_{k=1}^Kp(x|\theta\_k)^{z\_k}=p(x|\theta\_{k'}) $$
 
-Responsibility: the probability that data point n belongs to a cluster k is (by Bayes' rule):
+1. E step: compute membership probabilities - the probability that data point n belongs to a cluster k is (by Bayes' rule) (we don't need to compute the expected latent values $E[z|X,\theta]$):
 
-$$ \gamma(k,n):=p(z\_k=1|X\_n)=\frac{\pi\_kp(X\_n|\theta\_k)}{\sum\_{j=1}^K \pi_jp(X\_n|\theta\_j)} $$
+$$ \gamma(k,n)\leftarrow p(z\_k=1|X\_n,\theta)=\frac{\pi\_kp(X\_n|\theta\_k)}{\sum\_{j=1}^K \pi_jp(X\_n|\theta\_j)} $$
 
-### Gaussian Mixture Model (GMM)
 
-Probability densities are all gaussian:
+2. M step: estimate $\pi,\theta$.
+
+Gaussian Mixture Model (GMM)
+---
+
+A specific mixture model where probability densities are all gaussian:
 
 $$ p(x)=\sum_{k=1}^K\pi_k \mathcal{N}(x|\mu_k,\Sigma_k) $$
 
-Goal: find $\pi, \mu, \Sigma$ to maximize likelihood of data:
+### Expectation Maximization
 
-$$ p(X|\pi,\mu,\Sigma)=\prod\_{n=1}^Np(x\_n)=\prod\_{n=1}^N
+Goal: find $\theta=(\pi, \mu, \Sigma)$ that maximizes the likelihood of the data:
+
+$$ L(\pi,\mu,\Sigma|X)=p(X|\pi,\mu,\Sigma)=\prod\_{n=1}^Np(x\_n)=\prod\_{n=1}^N
 \sum_{k=1}^K\pi_k \mathcal{N}(x|\mu_k,\Sigma_k)
 $$
 
-For easier computations take use log likelihood:
-
-$$ \ln p(X|\pi,\mu,\Sigma)=\sum\_{n=1}^N\ln\left(\sum\_{k=1}^K\pi_k\mathcal{N}(x_n|\mu_k,\Sigma_k)\right) $$
-
-### Expectation Maximization Algorithm
-
-Compute initial values for $\mu, \pi, \Sigma$:
-
-$$ N\_k\leftarrow\sum\_{n=1}^N\gamma(k,n) $$ 
-
-$$ \mu\_k\leftarrow\frac{1}{N\_k}\sum\_{n=1}^N\gamma(k,n)X\_n $$
-
-$$ \pi_k\leftarrow\frac{N\_k}{N} $$
-
-$$ \Sigma\leftarrow\frac{1}{n}X^TX \text{ (sample covariance matrix)}$$
-
-Iterate. E-step: evaluate responsibilities:
+1. E step: evaluate responsibilities:
 
 $$ \gamma(k,n)\leftarrow \frac{\pi\_k\mathcal{N}(x\_n|\mu\_k,\Sigma\_k)}{\sum\_{j=1}^K \pi_j\mathcal{N}(x\_n|\mu\_j,\Sigma\_j)} $$
 
-M-step: re-estimate $\mu, \pi, \Sigma$.
+2. M step: estimate $\pi, \mu, \Sigma$.
 
-Check for log-likelihood or parameter convergence.
+$$ N\_k\leftarrow\sum\_{n=1}^N\gamma(k,n) $$ 
 
-### GMM an matrix factorization
+$$ \pi_k\leftarrow\frac{N\_k}{N} $$
+
+$$ \mu\_k\leftarrow\frac{1}{N\_k}\sum\_{n=1}^N\gamma(k,n)X\_n $$
+
+$$ \Sigma_k\leftarrow\frac{1}{N_k}(X-\mu_k)\operatorname{diag}(\gamma(k,1),\ldots,\gamma(k,n))(X-\mu_k)^T \text{ ???}$$ 
+
+### GMM as matrix factorization
 
 Soft clustering: instead of assigning a cluster, assign a probability: 
 
@@ -190,14 +211,19 @@ That's why we look for an approximate decomposition. There are different approac
 	* Sensitive to noise - overfitting
 * Discrete Basis Problem Solver
 	* Put things in roles that are often 1 together
-* Lossy Compression Problem 1 (LCP1): minimal deviation for given K
+* Lossy Compression Problem 1 (LCP1): minimal deviation $||X-U\otimes Z||$ for given K
 * LCP2: minimal K for given deviation
 * Model-based clustering - Structure Inference Problem (SIP): assume $X$ generated by hidden structure and perturbed by noise. Infer the structure.
 	* Inferring a structure is better than just trying to approximate the generated matrix
 
 ### Model-based Clustering
 
-Probabilistic Mixture Noise Model: data is a mixture of independent emission from the structure part and 
+Data is generated by a probabilistic model:
+
+* Mixture Noise Model: data is a mixture of independent emission from the structure part and a random noise.
+* Flip Noise Model: the noise flips bits from the generated data
+
+Parameters are inferred with the maximum likelihood principle.
 
 Bibliography
 ---
