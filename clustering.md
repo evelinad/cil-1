@@ -12,7 +12,6 @@ Main types of clustering:
 * Centroid-based/k-means
 * Distribution-based/mixture models - clusters are objects belonging to same distribution
 	* Gaussian Mixture Models: data set modeled as fixed number of gaussian distributions
-		* Expectation Maximization algorithm
 * Connectivity-based/hierarchical
 * Density-based - clusters as areas of higher density
 	* DBSCAN
@@ -59,31 +58,6 @@ Given X find approximation UZ to minimize Sum of Squared Errors:
 $$ ||X-UZ||_F^2 $$
 
 where U is the centroids matrix and Z is the assignment matrix, Z has only one 1 entry per column, the rest are zeros.
-
-Expectation Maximization (EM)
----
-
-Given observed data $X$ and unknown latent variables $Z$, and likelihood function
-
-$$L(\theta; X, Z) = p(X, Z|\theta) $$ 
-
-find parameters $\theta$ to maximize the marginal likelihood:
-
-$$ L(\theta; X) = p(X|\theta) = \sum_Z p(X,Z|\theta) $$
-
-Compute with iterative 2-step algorithm.
-
-1. Expectation step: with fixed parameter estimate $\theta$ calculate the expected latent values:
-
-$$Z\leftarrow E[Z|X,\theta]$$
-
-2. Maximization step: given the the expected latent values, compute a new estimate of the parameters that maximizes the log likelihood:
-
-$$\theta \leftarrow \underset{\theta}{\operatorname{arg\,max}} \log L(\theta;X,Z)$$
-
-Initialization: as in M step.
-
-Check for log-likelihood or parameter convergence.
 
 Mixture Models
 ---

@@ -7,5 +7,6 @@ These are my notes about the Computational Intelligence Lab lecture at ETH Zuric
 * [Intro](intro.md)
 * [Dimensionality reduction](dimensionality-reduction.md)
 * [Clustering](clustering.md)
+* [Non-Negative Matrix Factorization](non-negative.md)
 
 This notes collection is a git repository and can be cloned [here](http://github.com/nicolamr/cil).
