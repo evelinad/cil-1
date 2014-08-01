@@ -9,7 +9,8 @@ Application: clustering of text documents. $X_{dn}$ denotes whether document $n$
 
 We have different techniques depending on the cost function (the error measure).
 
-### Latent Semantic Indexing (LSI)
+Latent Semantic Indexing (LSI)
+---
 
 Not non-negative. Use SVD:
 
@@ -19,32 +20,45 @@ Wikipedia: LSI will return results that are conceptually similar in meaning to t
 
 Like PCA but without subtracting the means in order not to lose sparseness.
 
-### Probabilistic Latent Semantic Indexing (PLSI) - using the Kullback Leibler divergence
+Probabilistic Latent Semantic Indexing (PLSI) - using the Kullback Leibler divergence
+---
 
 Generative model: assume $k$ topics, documents are assigned to various topics with a certain probabilities, then the existence of the words depends only on the topics:
 
 $$ p(\text{word},\text{doc})=\sum_\text{topic} p(\text{word}|\text{topic})p(\text{topic},\text{doc})$$
 
-We would like to minimize $D_{KL}(X||UZ)$, i.e. find
+Assume the data is normalized. We would like to minimize $D_{KL}(X||UZ)$, i.e. find
 
 $$\min\_{U,Z}\sum\_{d=1}^D\sum\_{n=1}^Nx\_{d\_n}\ln\frac{x\_{d\_n}}{(UZ)\_{d\_n}}$$
 
-This can be solved with maximum likelihood estimation (i.e. the EM algorithm).
+This is equivalent to maximum likelihood estimation and can be done with the EM algorithm.
 
-### Using Squared Error
+Using Squared Error
+---
 
 We want to minimize Sum of Squared Errors $||X-UZ||_F^2$.
 
 $U,Z$ initialized randomly, then iterate:
 
-* $U_{dk}\leftarrow U_{dk}\frac{(XZ^T)_{dk}}{UZZ^T_{dk}}$
-* $Z_{kn}\leftarrow Z_{kn}\frac{(U^TX)_{kn}}{UTUZ_{kn}}$
+* $U\leftarrow U \odot XZ^T \oslash UZZ^T$
+* $Z\leftarrow Z \odot U^TX \oslash U^TUZ$
+
+Leads to a parts-based representation.
 
 ### Semi-NMF
 
-Using least square?
 Relaxing non-negative assumption on $U$ leads to algorithm similar to k-means:
 
-### Convex NMF
+* $U\leftarrow XZ^T(ZZ^T)^{-1}$
+* $Z\leftarrow Z\sqrt{\left[(U^TX)^++(U^TU)^-Z\right] \oslash \left[(U^TX)^-+(U^TU)^+Z\right]}$
+
+where $A\_{ij}^+=\max\\{0,A\_{ij}\\}$ and $A\_{ij}^-=\min\\{0,A\_{ij}\\}$.
+
+It's equivalent to soft k-means clustering. If $Z$ is required to be orthogonal, it's equivalent to k-means clustering.
+
+Why then such a complicated algorithm?
+
+Convex NMF
+---
 
 $U$ should be a convex combination of $X$, makes $Z$ more sparse and orthogonal.

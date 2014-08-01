@@ -4,13 +4,38 @@ Intro
 Matrix Operations
 ---
 
-Mean:
+### Mean:
 
 $$\bar{x}=\frac{1}{n}\sum_{i=1}^nX_i,\; \bar{X}=[\bar{x},\cdots,\bar{x}]$$
 
-Sample Covariance Matrix (element $ij$ is covariance between *columns* $i$ and $j$):
+### Sample Covariance Matrix
+
+Element $ij$ is covariance between *columns* $i$ and $j$:
 
 $$ \frac{1}{n}(X-\bar{X})(X-\bar{X})^T $$
+
+### Element-wise multiplication (or Hadamard-product):
+
+$$A\odot B=C\Leftrightarrow A\_{ij}=B\_{ij}C\_{ij} $$
+
+### Element-wise division:
+
+$$A\oslash B=C\Leftrightarrow A\_{ij}=B\_{ij}/C\_{ij} $$
+
+### Frobenius product:
+
+$$ A:B=\sum_{i,j}A_{ij}B_{ij} $$
+
+Matrix Types
+---
+
+### Orthogonal:
+
+$$A^TA=AA^T=I$$
+
+equivalently:
+
+$$A^T=A^{-1}$$
 
 Eigenvalue decomposition
 ---
@@ -37,7 +62,7 @@ $$ X^TX=V\Sigma^2V^T $$
 
 $$ XX^T=U\Sigma^2U$$
 
-Singular values of X are square roots of eigenvalues of $X^T*X$ and $X*X^T$.
+Singular values of X are square roots of eigenvalues of $X^T\*X$ and $X\*X^T$.
 
 ### Computing the svd:
 
@@ -68,13 +93,19 @@ $$|| A ||\_2=\sqrt{\lambda\_{\text{max}}(A^{^*} A)}=\sigma\_{\text{max}}(A) $$
 
 #### Entrywise norm
 
-Warning: it has the same notation as the induced p-norm!
+Warning: it has the same notation as the induced p-norm! Other notation is used in practice.
 
 $$\Vert A \Vert\_{p} = \Vert \mathrm{vec}(A) \Vert\_{p} = \left( \sum\_{i=1}^m \sum\_{j=1}^n |A\_{ij}|^p \right)^{1/p}$$ 
 
-For p=0 it's the Hamming distance. For p=2 you get the Frobenius norm:
+For p=0 it's the Hamming distance (# of nonzero entries). For p=2 you get the Frobenius norm:
 
-$$ ||A||\_F=\sqrt{\sum\_{i=1}^m\sum\_{j=1}^n |A\_{ij}|^2}=\sqrt{\operatorname{trace}(A^{{}^*}A)}=\sqrt{\sum\_{i=1}^{\min\{m,\,n\}} \sigma\_{i}^2} $$
+$$ ||A||\_F=\sqrt{\sum\_{i=1}^m\sum\_{j=1}^n |A\_{ij}|^2}=\sqrt{A:A}$$
+
+### Nuclear norm
+
+The sum of singular values
+
+$$||A||_*=\sum_{i=1}^{\min\\{m,n\\}}\sigma_i$$
 
 Error Measures
 ---
