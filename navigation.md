@@ -2,7 +2,7 @@
 
 [Home](index.md)
 
-[Intro](intro.md)
+[Background](background.md)
 [Problems](problems.md)
 [Dimensionality Reduction](dimensionality-reduction.md)
 [Clustering](clustering.md)

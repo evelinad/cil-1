@@ -1,4 +1,4 @@
-Intro
+Background
 ===
 
 Matrix Operations
@@ -25,6 +25,14 @@ $$A\oslash B=C\Leftrightarrow A\_{ij}=B\_{ij}/C\_{ij} $$
 ### Frobenius product:
 
 $$ A:B=\sum_{i,j}A_{ij}B_{ij} $$
+
+### Coherence
+
+The maximum absolute correlation. It's a measure for linear dependency.
+
+$$m(U)=\max_{i,j:i\neq j}|\left&lt;u_i,u_j\right&gt;|$$
+
+The coherence of an orthogonal matrix is 0.
 
 Matrix Types
 ---
@@ -93,19 +101,25 @@ $$|| A ||\_2=\sqrt{\lambda\_{\text{max}}(A^{^*} A)}=\sigma\_{\text{max}}(A) $$
 
 #### Entrywise norm
 
-Warning: it has the same notation as the induced p-norm! Other notation is used in practice.
+Warning: it has the same notation as the induced p-norm!
 
 $$\Vert A \Vert\_{p} = \Vert \mathrm{vec}(A) \Vert\_{p} = \left( \sum\_{i=1}^m \sum\_{j=1}^n |A\_{ij}|^p \right)^{1/p}$$ 
 
-For p=0 it's the Hamming distance (# of nonzero entries). For p=2 you get the Frobenius norm:
+For p=2 you get the Frobenius norm:
 
 $$ ||A||\_F=\sqrt{\sum\_{i=1}^m\sum\_{j=1}^n |A\_{ij}|^2}=\sqrt{A:A}$$
+
+### Zero Norm
+
+Also called Hamming distance from zero or cardinality, it's the number of nonzero entries.
+
+$$||A||\_0=\operatorname{card}(A)=|\\{A\_{ij}|A\_{ij}\neq0\\}|$$
 
 ### Nuclear norm
 
 The sum of singular values
 
-$$||A||_*=\sum_{i=1}^{\min\\{m,n\\}}\sigma_i$$
+$$||A||\_*=\sum\_{i=1}^{\min\\{m,n\\}}\sigma\_i$$
 
 Error Measures
 ---

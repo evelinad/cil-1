@@ -22,8 +22,11 @@ In general, different dictionaries appropriate for different types of signal.
 
 ### Fast Fourier Transform (FFT)
 
+Good for sine-like signals. Poor for localized signals.
 
 ### Fast Wavelet Transform (FWT)
+
+Wavelets are good for localized signals. Poor for non-vanishing signals.
 
 Uses [Haar wavelets](media/Haar_wavelet.svg) , in 4 dimensions:
 
@@ -41,9 +44,13 @@ $$
 
 ### Karhunen–Loève Transform
 
-It's PCA.
+It's PCA. Assume many signals $X$ to be compared to compute correlation matrix $\Sigma=U\Lambda U^T$, then $\hat{z}=U_kx$ (is the result sparse??).
 
 ### Discrete Cosine Transform
+
+Cosine wavelets. JPEG. Related to DFT but only using real numbers. Most common is DCT-II.
+
+$$X\_k = \sum\_{n=0}^{N-1} x\_n \cos \left[\frac{\pi}{N} \left(n+\frac{1}{2}\right)\right] $$
 
 ### Compressive Sensing
 
@@ -52,18 +59,25 @@ It's PCA.
 Overcomplete Dictionaries
 ---
 
-Overcompleteness: more dictionary elements than dimensions, i.e. $U\in\mathbb{R^{D\times L}}$ and $L>D$. Not linearly independent anymore.
+Overcompleteness: more dictionary elements than dimensions, i.e. $U\in\mathbb{R}^{D\times L}$ and $L>D$. Not linearly independent anymore.
 
 Example: Directional Gabor Wavelets.
 
-Increasing overcompleteness factor $\frac{L}{D}$ increases sparsity of coding and linear dependency (or absolute correlation) among the vectors. A measure for this is the coherence, i.e. the maximum absolute correlation:
+Increasing overcompleteness factor $\frac{L}{D}$ increases sparsity of coding and linear dependency (coherence).
 
-$$m(U)=\max_{i,j:i\neq j}|\left&lt;u_i,u_j\right&gt;|$$
+Assume noisy observation (why here and not for general signal compression?):
 
+$$x=Uz+n\text{, where }n_d\sim\mathcal{N}(0,\sigma^2)$$
 
-### 
+Approaches:
 
-### Noisy Observations
+* Maximize sparsity with bounded error
+
+$$z^*\in\arg\min_z||z||_0\text{ subject to }||x-Uz||_2<\sigma$$
+
+* Minimize residual with bounded sparsity
+
+$$z^*\in\arg\min_z||x-Uz||_2\text{ subject to}||z||_0\leq K$$
 
 ### Matching Pursuit
 
@@ -72,7 +86,7 @@ $$m(U)=\max_{i,j:i\neq j}|\left&lt;u_i,u_j\right&gt;|$$
 Dictionary Learning
 ---
 
-Adapt the dictionary to the signal. $U\in\mathbb{R^{D\times L}}$ where $L$ doesn't need to be as big.
+Adapt the dictionary to the signal. $U\in\mathbb{R}^{D\times L}$ where $L$ doesn't need to be as big.
 
 Again, minimize the squared error:
 
@@ -105,3 +119,5 @@ Model based speech enhancement. Enhancement pipeline:
 
 1. learning step
 2. enhancement step
+
+Need to know in detail??

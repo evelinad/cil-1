@@ -5,6 +5,8 @@ Given a sparse $X\in\mathbb{R}\_+^{D\times N}$ find $U\in\mathbb{R}\_+^{D\times 
 
 $$X\approx UZ$$
 
+subject to $\sum\_{d=1}^DU\_{dk}=1,\sum\_{k,n}Z_{kn}=1$.
+
 Application: clustering of text documents. $X_{dn}$ denotes whether document $n$ contains word $d$. $X_n$ is a bag of words.
 
 We have different techniques depending on the cost function (the error measure).
@@ -54,9 +56,12 @@ Relaxing non-negative assumption on $U$ leads to algorithm similar to k-means:
 
 where $A\_{ij}^+=\max\\{0,A\_{ij}\\}$ and $A\_{ij}^-=\min\\{0,A\_{ij}\\}$.
 
-It's equivalent to soft k-means clustering. If $Z$ is required to be orthogonal, it's equivalent to k-means clustering.
+### Equivalence
 
-Why then such a complicated algorithm?
+Minimizing $||X-UZ||\_F^2$ is equivalent under the following conditions:
+
+* k-means: $Z\in\\{0,1\\}^{K\times N},\sum\_kz\_{km}=1$
+* Z-orthogonal Semi-NMF: $ZZ^T=I,Z\geq0$
 
 Convex NMF
 ---
