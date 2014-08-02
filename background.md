@@ -24,7 +24,7 @@ $$A\oslash B=C\Leftrightarrow A\_{ij}=B\_{ij}/C\_{ij} $$
 
 ### Frobenius product:
 
-$$ A:B=\sum_{i,j}A_{ij}B_{ij} $$
+$$ A:B=\sum\_{i,j}A\_{ij}B\_{ij} $$
 
 ### Coherence
 
@@ -70,12 +70,12 @@ $$ X^TX=V\Sigma^2V^T $$
 
 $$ XX^T=U\Sigma^2U$$
 
-Singular values of X are square roots of eigenvalues of $X^T\*X$ and $X\*X^T$.
+Singular values of X are square roots of eigenvalues of $X^TX$ and $XX^T$.
 
-### Computing the svd:
+### Computing the SVD:
 
-* Compute eigenvalues of $X^T*X$, square to get singular values.
-* Compute eigenvectors of $X^T*X$, the colmns of V.
+* Compute eigenvalues of $X^TX$, square to get singular values.
+* Compute eigenvectors of $X^TX$, the colmns of V.
 * Compute $U=AVD^{-1}$.
 
 Norms
@@ -87,7 +87,7 @@ p-norm for vectors:
 
 $$||\mathbf{x}||\_p := \bigg( \sum\_{i=1}^n |x\_i|^p \bigg)^{1/p}$$
 
-For p=1 taxicab norm, p=2 euclidean norm, p=infinity infinity/maximum norm.
+For $p=1$ taxicab norm (sum of absolute values), $p=2$ euclidean norm, $p=\infty$ infinity/maximum norm.
 
 ### Matrix norms
 
@@ -97,7 +97,7 @@ $$||A||\_p = \sup \limits \_{x \ne 0} \frac{|| A x|| _p}{|| x|| _p}$$
 
 For p=2 it's the spectral norm or the largest singular value:
 
-$$|| A ||\_2=\sqrt{\lambda\_{\text{max}}(A^{^*} A)}=\sigma\_{\text{max}}(A) $$
+$$|| A ||\_2=\sigma\_{\text{max}}(A) $$
 
 #### Entrywise norm
 
@@ -180,7 +180,7 @@ $$\theta \leftarrow \underset{\theta}{\operatorname{arg\,max}} \log L(\theta;X,Z
 
 Initialization: as in M step.
 
-Check for log-likelihood or parameter convergence.
+Terminate on log-likelihood or parameter convergence.
 
 Information Theory
 ---
