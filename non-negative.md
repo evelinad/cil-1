@@ -22,7 +22,7 @@ Wikipedia: LSI will return results that are conceptually similar in meaning to t
 
 Like PCA but without subtracting the means in order not to lose sparseness.
 
-Probabilistic Latent Semantic Indexing (PLSI) - using the Kullback Leibler divergence
+Probabilistic Latent Semantic Indexing (PLSI)
 ---
 
 Generative model: assume $k$ topics, documents are assigned to various topics with a certain probabilities, then the existence of the words depends only on the topics:
@@ -35,7 +35,7 @@ $$\min\_{U,Z}\sum\_{d=1}^D\sum\_{n=1}^Nx\_{d\_n}\ln\frac{x\_{d\_n}}{(UZ)\_{d\_n}
 
 This is equivalent to maximum likelihood estimation and can be done with the EM algorithm.
 
-Using Squared Error
+NMF
 ---
 
 We want to minimize Sum of Squared Errors $||X-UZ||_F^2$.
@@ -66,4 +66,14 @@ Minimizing $||X-UZ||\_F^2$ is equivalent under the following conditions:
 Convex NMF
 ---
 
-$U$ should be a convex combination of $X$, makes $Z$ more sparse and orthogonal.
+Additional constraint: $U$ is a convex combination of $X$, i.e. it lies within column space of $X$, i.e. there is a $W\in\mathbb{R}^{N\times K}$ such that:
+
+$$U=XW$$
+
+Then
+
+$$X\approx UZ=XWZ$$
+
+$U$ is then naturally sparse.
+
+It's not a convex optimization problem: algorithm is still iterative.

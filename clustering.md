@@ -24,11 +24,13 @@ Find partition of data $S$. Minimize within-cluster sum of squares (WCSS):
 
 $$\underset{S} {\operatorname{arg\,min}} \sum\_{i=1}^{k} \sum\_{ x\_j \in S\_i} ||  x\_j - \mu\_i ||^2$$ 
 
-Equivalently, find approximation UZ to minimize Sum of Squared Errors:
+Equivalently, find approximation $UZ$ to minimize Sum of Squared Errors:
 
 $$ ||X-UZ||_F^2 $$
 
-where U is the centroids matrix and Z is the assignment matrix, Z has only one 1 entry per column, the rest are zeros.
+where $U$ is the centroids matrix and $Z$ is the assignment matrix, $Z$ has only one 1 entry per column, the rest are zeros, i.e.
+
+$$Z\_{ln}\in\\{0,1\\}, \sum\_{l=1}^LZ\_{ln}=1$$
 
 NP-hard -> approximate solution. K-means partitions data space into Voronoi diagram.
 
@@ -79,7 +81,7 @@ $$ p(x|z\_{k'}=1)=\prod\_{k=1}^Kp(x|\theta\_k)^{z\_k}=p(x|\theta\_{k'}) $$
 
 1. E step: compute membership probabilities - the probability that data point n belongs to a cluster k is (by Bayes' rule) (we don't need to compute the expected latent values $E[z|X,\theta]$):
 
-$$ \gamma(k,n)\leftarrow E(z\_k|X\_n,\theta)=p(z\_k=1|X\_n,\theta)=\frac{\pi\_kp(X\_n|\theta\_k)}{\sum\_{j=1}^K \pi_jp(X\_n|\theta\_j)} $$
+$$ \gamma(k,n)\leftarrow \operatorname{E}[z\_k|X\_n,\theta]=p(z\_k=1|X\_n,\theta)=\frac{\pi\_kp(X\_n|\theta\_k)}{\sum\_{j=1}^K \pi_jp(X\_n|\theta\_j)} $$
 
 
 2. M step: estimate $\pi,\theta$.
@@ -111,7 +113,7 @@ $$ \pi_k\leftarrow\frac{N\_k}{N} $$
 
 $$ \mu\_k\leftarrow\frac{1}{N\_k}\sum\_{n=1}^N\gamma(k,n)X\_n $$
 
-$$ \Sigma_k\leftarrow\frac{1}{N_k}(X-\mu_k)\operatorname{diag}(\gamma(k,1),\ldots,\gamma(k,n))(X-\mu_k)^T \text{ ???}$$ 
+$$ \Sigma_k\leftarrow\frac{1}{N_k}(X-\mu_k)\operatorname{diag}(\gamma(k,1),\ldots,\gamma(k,n))(X-\mu_k)^T$$ 
 
 ### GMM as matrix factorization
 
@@ -119,7 +121,7 @@ Soft clustering: instead of assigning a cluster, assign a probability:
 
 $$Z\_{kn}\in[0,1], \sum\_{k=1}^KZ\_{kn}=1$$
 
-GMM gives an upper bound for the SSE:
+GMM gives an upper bound for the squared error:
 
 $$||X-UZ||\_F^2$$
 
@@ -160,7 +162,7 @@ A probabilistic model for clustering Boolean data. Multi-assignment: an object c
 
 Application: role mining for Role-Based Access Control (RBAC): given User-permissions $X\in\mathbb{B}^{D\times N}$ (ideally) find roles $U\in\mathbb{R}^{D\times K}$ and assignments $Z\in\mathbb{B}^{K\times N}$ so that
 
-$$X=U\otimes Z :\Leftrightarrow X\_{dn}=\bigvee\_k[U{dk}\wedge Z\_{kn}]$$
+$$X=U\otimes Z :\Leftrightarrow X\_{dn}=\bigvee\_k[U_{dk}\wedge Z\_{kn}]$$
 
 Since a user can have multiple roles, a multi-assignment clustering is needed.
 

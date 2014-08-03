@@ -72,3 +72,8 @@ $$\tilde{X}=T_LW_L^T=U_L\Sigma_LW_L^T$$
 Minimizes spectral norm of error :
 
 $$ ||X-\tilde{X}||_2 $$
+
+And also minimizes the squared error:
+
+$$ ||X-\tilde{X}||\_F^2 $$
+

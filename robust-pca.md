@@ -4,6 +4,10 @@ Robust PCA
 Convex Optimization
 ---
 
+$f$ is convex if
+
+TODO
+
 ### Canonical form
 
 Minimize $f(x)$ subject to
@@ -143,7 +147,7 @@ $$||L||_*+\lambda||S||_1$$
 
 subject to 
 
-$$L+S=X$$
+$$X=L+S$$
 
 ### ADMM for RPCA
 
@@ -157,12 +161,14 @@ Gradient ascent:
 
 * $S\leftarrow\arg\min\_S L\_\mu(S,L,N)=\mathcal{S}\_{\lambda\mu^{-1}}(X-L+\mu^{-1}N)$
 * $L\leftarrow\arg\min\_L L\_\mu(S,L,N)=\mathcal{D}\_{\lambda\mu^{-1}}(X-L+\mu^{-1}N)$
-* $N\leftarrow+\mu(X-L-S)$
+* $N\leftarrow N+\mu(X-L-S)$
 
 Where $\lambda$ is the iteration step and
 
 * $\mathcal{S}\_\tau(X)=\operatorname{sgn}(x)\max(|X|-\tau,0)$
 * $\mathcal{D}\_\tau(X)=U\mathcal{S}\_\tau(\Sigma)M^T$ where $X=U\Sigma M^T$
+
+Why not compute the minimum directly??
 
 ### Conditions for exact recovery:
 
@@ -172,11 +178,11 @@ $L$ cannot be sparse.
 
 If $\operatorname{rank}(L)\leq\rho_rn\mu^{-1}(\ln n)^{-2}$, $\operatorname{card}(S)\leq\rho_sh^2$, $\rho_r,\rho_s>0$, then PCP with $\lambda=\frac{1}{n}$ is exact with probability $1-\mathcal{O}(n^{-10})$.
 
-Why?? what is $\lambda,\mu$?? where's the condition that $L$ can't be sparse??.
-
 ### RPCA for Collaborative filtering
 
 When used for matrix completion - consider only observed values.
 
-If additionally data is corrupt, then *theorem*
+If additionally data is corrupt, then
+
+TODO
 

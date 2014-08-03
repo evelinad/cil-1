@@ -1,6 +1,17 @@
 Background
 ===
 
+Vector Operations
+---
+
+### Scalar/Dot/Inner Product
+
+$$x\cdot y=\left&lt;x,y\right&gt;=x^Ty$$
+
+### Outer Product
+
+$$x\otimes y=xy^T$$
+
 Matrix Operations
 ---
 

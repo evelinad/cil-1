@@ -1,8 +1,10 @@
 Sparse Coding
 ===
 
-Signal Compression
+Classical Methods
 ---
+
+### Signal Compression
 
 Given signal $f$, use a dictionary: orthogonal matrix of basis functions $U=[u_1,\cdots,u_D]\in\mathbb{R}^{D\times D}$ to compute
 
@@ -44,17 +46,42 @@ $$
 
 ### Karhunen–Loève Transform
 
-It's PCA. Assume many signals $X$ to be compared to compute correlation matrix $\Sigma=U\Lambda U^T$, then $\hat{z}=U_kx$ (is the result sparse??).
+It's PCA. Assume many signals $X$ to be compared to compute correlation matrix $\Sigma=U\Lambda U^T$, then $\hat{z}=U_Kx$.
 
 ### Discrete Cosine Transform
 
 Cosine wavelets. JPEG. Related to DFT but only using real numbers. Most common is DCT-II.
 
-$$X\_k = \sum\_{n=0}^{N-1} x\_n \cos \left[\frac{\pi}{N} \left(n+\frac{1}{2}\right)\right] $$
-
 ### Compressive Sensing
 
-### Recovery
+Compress data while gathering it. Application: MRI.
+
+Given signal $x$, assume it is sparse in some orthonormal basis $U$, i.e. for some sparse $z$:
+
+$$x=Uz$$
+
+How do you find $U$ and $z$?? How do you know $U$ later on? It's an input to MP!
+
+Then it is possible to represent the signal with fewer dimensions:
+
+$$y=Wx=WUz=\Theta z\text{ where }\Theta\in\mathbb{R}^{M\times D}$$
+
+Recovery is possible for any $W$ for which
+
+* $W\_{ij}\in\_{\text{u.a.r}}\mathcal{N}(0,\frac{1}{D})$
+* $M\geq cK\ln(\frac{D}{K})$ for some $c$
+
+Recovery: Find sparsest applicable $z$
+
+$$z^*\leftarrow\arg\min_z||z||_0\text{ subject to }y=\Theta z$$
+
+It's NP hard, approximate with Matching Pursuit.
+
+Reconstruct signal:
+
+$x\leftarrow Uz$
+
+How do you find $U$??
 
 Overcomplete Dictionaries
 ---
@@ -65,30 +92,76 @@ Example: Directional Gabor Wavelets.
 
 Increasing overcompleteness factor $\frac{L}{D}$ increases sparsity of coding and linear dependency (coherence).
 
-Assume noisy observation (why here and not for general signal compression?):
+Assume noisy observation:
 
 $$x=Uz+n\text{, where }n_d\sim\mathcal{N}(0,\sigma^2)$$
 
+### Sparse Coding
+
 Approaches:
 
-* Maximize sparsity with bounded error
+* Maximize sparsity with no error (NP hard):
+
+$$z^*\in\arg\min_z||z||_0\text{ subject to }x=Uz$$
+
+* Maximize sparsity with bounded error (how??):
 
 $$z^*\in\arg\min_z||z||_0\text{ subject to }||x-Uz||_2<\sigma$$
 
-* Minimize residual with bounded sparsity
+* Minimize residual with bounded sparsity (Matching Pursuit):
 
-$$z^*\in\arg\min_z||x-Uz||_2\text{ subject to}||z||_0\leq K$$
+$$z^*\in\arg\min_z||x-Uz||_2\text{ subject to }||z||_0\leq K$$
 
 ### Matching Pursuit
 
+Objective: find sparsest representation
+
+$$z^*\leftarrow\arg\min_z||x-Uz||_2$$
+
+subject to
+
+$$||z||_0\leq K$$
+
+Greedy
+
+* Init: $z\leftarrow 0$, $r\leftarrow x$
+* While $||z||_0<k$:
+	* $d\leftarrow \arg\max_d|U_d^TR|$
+		* Minimizing the residual is equivalent to maximizing the absolute scalar product.
+	* $z_d\leftarrow z_d^+u_d^TR$
+	* $r\leftarrow r-(U_d^Tr)U_d$
+
+Exact recovery condition:
+
+$$K<\frac{1}{2}\left(1+\frac{1}{m(U)}\right)$$
+
+i.e. sparse coding (small $K$) recovers support.
+
+Tradeoff: increasing $L$ leads to sparser coding but increases coherence.
+
 ### Inpainting
+
+Sparse coding of known parts of picture.
+Reconstructing image predicts missing parts.
+
+Given diagonal masking matrix $M$, $M_{dd}=1$ if pixel $d$ is known.
+
+
+Iteratively find sparse coding in $U$: $z\leftarrow\arg\min_z||z||_0$ so that $||M(x-Uz)||_2<\sigma$, doable with EM:
+
+* Reconstruct image: $\hat{x}\leftarrow Mx+(I-M)Uz$
+* Find sparse coding of $\hat{x}$: $z\leftarrow\arg\min_z||z||_0$ so that $||\hat{x}-Uz||_2<\sigma$
+
+Reconstruct image: $\hat{x}=Mx+(I-M)Uz$
+
+Initialization??
 
 Dictionary Learning
 ---
 
 Adapt the dictionary to the signal. $U\in\mathbb{R}^{D\times L}$ where $L$ doesn't need to be as big.
 
-Again, minimize the squared error:
+Minimize the squared error:
 
 $$||X-UZ||_F^2$$
 
@@ -110,14 +183,17 @@ Initialization possibility of $U$:
 * Sample from X
 * Some fixed overcomplete dictionary
 
-
 ### Examples
 
 Image approximation with sparse coding and dictionary.
 
 Model based speech enhancement. Enhancement pipeline:
 
-1. learning step
-2. enhancement step
-
-Need to know in detail??
+* Apply DFT to all signals before processing them.
+1. Learning step:
+	1. Learn dictionary for speech and hardcode
+	2. Live: on input just noise learn dictionary for noise and combine dictionaries
+2. Enhancement step:
+	1. Live: Express current input with combined dictionaries
+	2. Throw away the noise part
+	3. Reconstruct speech only
